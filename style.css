@@ -1,0 +1,119 @@
+    /* ... other styles ... */
+    /* * { border: thin solid pink } */
+    /* Header styles */
+    .website_header {
+        background-color: rgb(77,109,127); /* Set header background color */
+        /* text-align: center; /* Center the title */
+        display: flex; /* Use flexbox for layout */
+        align-items: center;
+        /* justify-content: left; /* Center content horizontally */
+        /* align-items: center; /* Center content vertically */
+        height: 60px; /* Set a fixed height */
+        margin-top: 30px;
+    }
+
+    body {
+        background-image: url("images/background_dark.png");
+        color : white;
+        zoom: 150%;
+        background-size: cover; /* Ensures the image covers the entire element */
+        background-repeat: no-repeat; /* Prevents the image from repeating */
+        background-attachment: fixed; /* The background image will not scroll with the page */
+    }
+
+    a {
+        color: white;
+    }
+
+    .leftpadding {
+        flex: 1; /* Use remaining space */
+    }
+
+    .website_header .daseingemachte {
+        display: flex; /* Use flexbox for layout */
+        /* justify-content: left; /* Center content horizontally */
+        align-items: center; /* Center content vertically */
+    }
+
+    .rightpadding {
+        flex: 5; /* Use remaining space */
+    }
+
+    .logo {
+        width: 100px; /* Set logo width */
+        height: 100px; /* Set logo height */
+        margin-right: 20px; /* Add some space between logo and title */
+    }
+
+    .website_title {
+        font-size: 48px;
+        color: #ffffff;
+    }
+
+    /* Content styles */
+    .website_content {
+        display: flex; /* Use flexbox for layout */
+        align-items: center;
+    }
+
+    .website_content .leftpadding {
+        min-width: 150px; /* Set minimum width */
+    }
+
+    .website_content .menu_bar {
+        display: flex; /* Use flexbox for layout */
+        align-items: center;
+        background-color: rgb(77,109,127);
+        padding-right: 20px;
+        border-radius: 10px; /* Add round edges */
+        margin: 10px; /* Add black margin */
+        border: 5px solid rgb(44,66,85);
+        top: 100px;
+        position: fixed;
+        /* background-color: black; */
+    }
+    .image-row {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+    
+    figure {
+        position: relative; /* Establishes a positioning context for absolute positioning of the hovertext */
+        text-align: center;
+        margin: 0 10px;
+    }
+    
+    .symbol {
+        display: block;
+        margin-left: auto;
+        margin-right: auto;
+    }
+    
+    figcaption {
+        font-style: italic;
+    }
+    
+    .hovertext {
+        position: absolute; /* Position the hovertext in relation to the figure */
+        bottom: 100%; /* Position it above the image */
+        left: 50%; /* Start at the middle of the figure */
+        transform: translateX(-50%); /* Center the hovertext */
+        white-space: nowrap; /* Ensure the text doesn't wrap */
+        visibility: hidden; /* Hide it by default */
+        opacity: 0;
+        transition: visibility 0s, opacity 0.5s ease-in-out; /* Smooth transition for the tooltip appearance */
+        background-color: black; /* Tooltip background */
+        color: white; /* Tooltip text color */
+        text-align: center;
+        border-radius: 5px;
+        padding: 5px;
+        /* Add more styling as needed (e.g., font size, padding, etc.) */
+    }
+    
+    figure:hover .hovertext {
+        visibility: visible; /* Show the hovertext on hover */
+        opacity: 1;
+        bottom: 110%; /* Adjust if needed to position the hovertext correctly */
+    }
+    
