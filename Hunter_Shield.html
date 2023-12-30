@@ -55,11 +55,14 @@
                 <li>It gets dark</li>
             </ul>
             <p> The game is played in rounds, and the roles of hunter and shield are randomly reassigned after each round.</p>
+            <p></p>
+            <p>Here is a simulation, to play around with!</p>
             <!-- Include the game simulation here -->
             <canvas id="gameCanvas" width="400" height="300"></canvas>
             <input type="number" min="3" max="50" value="3" id="numPointsInput"/>
-            <button onclick="drawPoints(parseInt(document.getElementById('numPointsInput').value))">Draw</button>
-            <button onclick="move_points()">Move</button>
+            <button onclick="reset(parseInt(document.getElementById('numPointsInput').value))">Draw</button>
+            <button onclick="make_step()">make step</button>
+            <button onclick="move()">move</button>
             <!-- <button onclick="alert('Hall0')">Draw</button> -->
         </div>
         <div class="rightpadding"></div>
