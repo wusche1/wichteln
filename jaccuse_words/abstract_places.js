@@ -1,0 +1,22 @@
+place_list.push(
+    ["The Horizon", "The Crossroads", "abstract"],
+    ["Dreamscape", "Outer Space", "abstract"],
+    ["The Past", "The Echoes of Time", "abstract"],
+    ["Utopia", "The Labyrinth of the Mind", "abstract"],
+    ["Heaven", "The Summit", "abstract"],
+    ["Limbo", "The Digital Realm", "abstract"],
+    ["The Void", "The Sea of Tranquility", "abstract"],
+    ["The Edge of the Universe", "The Fountain of Youth", "abstract"],
+    ["The Black Hole", "The Desert of Solitude", "abstract"],
+    ["The Vanishing Point", "The Chamber of Secrets", "abstract"],
+    ["Subconscious", "The Analog World", "abstract"],
+    ["The Future", "The Field of Possibilities", "abstract"],
+    ["Dystopia", "The Storm of Chaos", "abstract"],
+    ["Nirvana", "The Oasis of Serenity", "abstract"],
+    ["Turning Point", "The Brink of the Imaginary", "abstract"],
+    ["The Abyss", "The Path of Certainty", "abstract"],
+    ["The River Styx", "The Silence of Eternity", "abstract"],
+    ["The Garden of Thoughts", "The Halls of Justice", "abstract"],
+    ["The Peak of Enlightenment", "The Threshold of Reality", "abstract"],
+    ["The Mind's Eye", "The Heart's Core", "abstract"]
+);

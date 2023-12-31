@@ -1,0 +1,22 @@
+place_list.push(
+    ['Kitchen', 'Garden', 'everyday'],
+    ['Library', 'Bookstore', 'everyday'],
+    ['Bedroom', 'Hotel Room', 'everyday'],
+    ['Classroom', 'Lecture Hall', 'everyday'],
+    ['Office', 'Café', 'everyday'],
+    ['Gym', 'Park', 'everyday'],
+    ['Garage', 'Hardware Store', 'everyday'],
+    ['Attic', 'Antique Shop', 'everyday'],
+    ['Playground', 'Community Center', 'everyday'],
+    ['Living Room', 'Movie Theater', 'everyday'],
+    ['Bathroom', 'Spa', 'everyday'],
+    ['Bus Station', 'Airport Terminal', 'everyday'],
+    ['Balcony', 'Rooftop', 'everyday'],
+    ['Basement', 'Wine Cellar', 'everyday'],
+    ['Laundry Room', 'Dry Cleaners', 'everyday'],
+    ['Courtyard', 'Public Square', 'everyday'],
+    ['Alley', 'Side Street', 'everyday'],
+    ['Elevator', 'Escalator', 'everyday'],
+    ['Grocery Store', 'Farmers Market', 'everyday'],
+    ['Bank', 'Post Office', 'everyday']
+);

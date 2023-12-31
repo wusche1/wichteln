@@ -58,13 +58,15 @@
             <p></p>
             <p>Here is a simulation, to play around with!</p>
             <!-- Include the game simulation here -->
-            <canvas id="gameCanvas" width="400" height="300"></canvas>
-            <p></p>
-            <input type="number" min="3" max="50" value="3" id="numPointsInput"/>
-            <button onclick="reset(parseInt(document.getElementById('numPointsInput').value))">Draw</button>
-            <button onclick="make_step()">make step</button>
-            <button onclick="move()">move</button>
+            <div class = "game_container"><canvas id="gameCanvas" class="game" width="400" height="300"></canvas></div>
+            
             <!-- <button onclick="alert('Hall0')">Draw</button> -->
+            <div class="game_buttons">
+                <input class = "player_number" type="number" min="3" max="50" value="3" id="numPointsInput"/>
+                <button onclick="reset(parseInt(document.getElementById('numPointsInput').value))">Draw</button>
+                <button onclick="make_step()">make step</button>
+                <button onclick="move()">move</button>
+            </div>
         </div>
         <div class="rightpadding"></div>
         
