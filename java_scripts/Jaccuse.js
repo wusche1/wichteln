@@ -5,11 +5,14 @@ var ctx;
 var place_list = [];
 var topic_list = [];
 var chosen_topics = [];
+var phase = "start";
+
 
 var min_word = "";
 var maj_word = "";
 
 let var_minority_id = [];
+let var_condemmed_id = [];
 
 document.querySelectorAll('.cards').forEach(card => {
     card.addEventListener('click', function() {
@@ -94,23 +97,37 @@ function shuffleArray(array) {
     }
 }
 
+function select_valid_place() {
+    var valid_places = [];
+    for (let i = 0; i < place_list.length; i++) {
+        if (chosen_topics.includes(place_list[i][2])) {
+            valid_places.push(place_list[i]);
+        }
+    }
+    if (valid_places.length == 0) {
+        return null;
+    }
+    return valid_places[Math.floor(Math.random() * valid_places.length)];
+}
+
 function startGame(player_number) {
     // Get the number of players from the input
     player_number = Math.max(5, Math.min(player_number, 15));
-    player_minority = Math.floor(player_number / 2) - .5;
+    player_minority = Math.floor(player_number / 2-.1);
     console.log(player_number);
     console.log(player_minority);
 
     // Initialize the array with 0s and then fill in 1s for the minority.
     var_minority_id = Array(player_number).fill(0).fill(1, 0, player_minority);
     shuffleArray(var_minority_id);
+    var_condemmed_id = Array(player_number).fill(0);
 
     // Remove start options
     var cardsContainer = document.getElementById('player_cards');
     cardsContainer.innerHTML = '';
 
     // select random line of place_list
-    var place = place_list[Math.floor(Math.random() * place_list.length)];
+    var place = select_valid_place();
     pl1 = place[0];
     pl2 = place[1];
 
@@ -135,6 +152,9 @@ function startGame(player_number) {
         const card = document.createElement('div');
         card.className = 'cards';
     
+
+        //g
+    
         const cardFront = document.createElement('div');
         cardFront.className = 'card-front';
     
@@ -145,6 +165,19 @@ function startGame(player_number) {
         // Add event listener to toggle card visibility
         card.addEventListener('click', function() {
             card.classList.toggle('flipped');
+            if (phase =="choose" && ! card.classList.contains('flipped')) {
+                card.className += ' deactivated_card';;
+            }
+
+            //see if al cards are deactivated, and game phase is choose. If so, move to next phase.
+            if (document.querySelectorAll('.deactivated_card').length == player_number && phase == "choose") {
+                phase = "vote";
+                for (let i = 0; i < player_number; i++) {
+                    document.querySelectorAll('.cards')[i].classList.remove('deactivated_card');
+                }
+                add_condemn_button(player_number);
+            }
+            
           });
     
         // Assemble the card
@@ -154,15 +187,55 @@ function startGame(player_number) {
         // Add the card to the container
         cardsContainer.appendChild(card);
     }
+    phase = "choose";
 }
 
-function togglePlayerCard(player_id) {
-    var player_card = document.getElementById('player_card_' + player_id);
-    if (player_card.textContent == 'Player ' + (player_id + 1)) {
-        player_card.textContent = var_minority_id[player_id] ? min_word : maj_word;
-    } else {
-        player_card.textContent = 'Player ' + (player_id + 1);
+function add_condemn_button(player_number) {
+    var cardsContainer = document.getElementById('condemmed_button');
+    cardsContainer.innerHTML = ''; // Clear previous buttons
+    //create a condemn button under each card
+    for (let i = 0; i < player_number; i++) {
+        let button = document.createElement('button');
+        button.textContent = "Condemn";
+        button.id = 'condemn_button-' + i; // Assign a unique ID
+
+        button.addEventListener('click', function() {
+            card = document.querySelectorAll('.cards')[i];
+            var_condemmed_id[i] = 1;
+            card.classList.add('deactivated_card');
+            check_win_condition();
+        });
+        cardsContainer.appendChild(button);
     }
+
 }
+
+function check_win_condition() {
+    var not_condemmed_minority = 0;
+    var condemmed_majority = 0;
+    player_number = var_minority_id.length;
+    console.log(var_minority_id);
+    console.log(var_condemmed_id);
+    for (let i = 0; i < player_number; i++) {
+        console.log("new loop iteration")
+        console.log(var_minority_id[i]);
+        console.log(var_condemmed_id[i]);
+        if (var_minority_id[i] == 1 && var_condemmed_id[i] == 0) {
+            not_condemmed_minority++;
+        }
+        if (var_minority_id[i] == 0 && var_condemmed_id[i] == 1) {
+            condemmed_majority++;
+        }
+    }
+
+    if (not_condemmed_minority == 0) {
+        alert("Majority wins!");
+    }
+    if (condemmed_majority >=2) {
+        alert("Minority wins!");
+    }
+    return;
+}
+
 
 

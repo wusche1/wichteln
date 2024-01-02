@@ -178,7 +178,6 @@
     width: 100px; /* Card width */
     height: 150px; /* Card height */
     margin: 10px; /* Space between cards */
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Card shadow */
     border-radius: 10px; /* Rounded corners for the cards */
     perspective: 1000px; /* Depth effect for flipping */
   }
@@ -219,6 +218,10 @@
   
   .cards.flipped .card-back {
     transform: rotateY(0deg); /* Align back to front */
+
   }
-  
-    
+
+  .deactivated_card {
+    opacity: 0.5;
+  }
+
