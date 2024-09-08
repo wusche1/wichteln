@@ -10,4 +10,11 @@ place_list.push(
     ["Safari","Jungel","eva_words"],
     ["Hochzeit","Jahrmarkt","eva_words"],
     ["Gefängnis","U-Boot","eva_words"],
+    ["Matratzenfachgeschäft","Buchladen","eva_words"],
+    ["Gärtnerei","Botanischer Garten","eva_words"],
+    ["Schmetterlingshaus","Greifvogelshow","eva_words"],
+    ["Wetterbalon","Heißluftballon","eva_words"],
+    ["Mondlandschaft","Sahara","eva_words"],
+    ["Mediamarkt","Spielsalon","eva_words"],
+    ["Gewächshaus","Orangerie","eva_words"],
 );
