@@ -17,4 +17,6 @@ place_list.push(
     ["Mondlandschaft","Sahara","eva_words"],
     ["Mediamarkt","Spielsalon","eva_words"],
     ["Gewächshaus","Orangerie","eva_words"],
+    ["Lichterkette","Kronleuchter","eva_words"],
+    ["Bierzelt","Disco","eva_words"],
 );
