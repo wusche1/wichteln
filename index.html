@@ -15,13 +15,26 @@
     <meta name="msapplication-TileColor" content="#da532c">
     <meta name="theme-color" content="#ffffff">
 </head>
+<script src="https://apis.google.com/js/platform.js" async defer></script>
+<script>
+    function loginWithGoogle() {
+      gapi.auth2.getAuthInstance().signIn({
+        prompt: 'select_account'
+      }).then(function(googleUser) {
+        console.log('Logged in with Google');
+      }, function(error) {
+        console.log('Google login failed: ' + error);
+      });
+    }
+  </script>
 <body>
     <header class="website_header">
-        <div class="leftpadding"></div>
+        <div class="small_leftpadding"></div>
         <div class="daseingemachte">
-            <img src="images/Turtle_logo.png" alt="Pustezug Games" class="logo">
+            <img src="images/person-icon.png" alt="Login" class="person-icon" onclick="setTimeout(loginWithGoogle, 100)">            <img src="images/Turtle_logo.png" alt="Pustezug Games" class="logo">
             <span class="website_title">Pustezug Games</span>
-        </div>
+            <a href="#" class="login-button" onclick="loginWithGoogle()"></a>
+          </div>
         <div class="rightpadding"></div>
     </header>
     <div class="website_content">

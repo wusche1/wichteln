@@ -7,6 +7,7 @@
     <!-- ... other styles or links ... -->
     <!-- Header styles or other CSS rules can go here -->
     <!-- For modern browsers - recommended: PNG format -->
+     
     <link rel="apple-touch-icon" sizes="180x180" href="icon_folder/apple-touch-icon.png">
     <link rel="icon" type="image/png" sizes="32x32" href="icon_folder/favicon-32x32.png">
     <link rel="icon" type="image/png" sizes="16x16" href="icon_folder/favicon-16x16.png">
@@ -15,18 +16,21 @@
     <meta name="msapplication-TileColor" content="#da532c">
     <meta name="theme-color" content="#ffffff">
     <!-- Include your custom JS file -->
-    <script src="java_scripts/Jaccuse.js" defer></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/4.1.1/crypto-js.min.js"></script>
+    <script type="module" src="java_scripts/databank.js" defer></script>
+    <script type="module" src="java_scripts/Jaccuse.js" defer></script> 
+    <!-- <script src="jaccuse_words/everyday_places.js" defer></script>
     <script src="jaccuse_words/abstract_places.js" defer></script>
-    <script src="jaccuse_words/everyday_places.js" defer></script>
     <script src="jaccuse_words/specific_places.js" defer></script>
     <script src="jaccuse_words/jonas_words.js" defer></script>
     <script src="jaccuse_words/eva_words.js" defer></script>
-    <script src="jaccuse_words/ML4good.js" defer></script>
+    <script src="jaccuse_words/ML4good.js" defer></script> -->
 </head>
 <body onload="main()">
     <header class="website_header">
-        <div class="leftpadding"></div>
+        <div class="small_leftpadding"></div>
         <div class="daseingemachte">
+            <img src="images/person-icon.png" alt="Login" class="person-icon">
             <img src="images/Turtle_logo.png" alt="Pustezug Games" class="logo">
             <span class="website_title">Pustezug Games</span>
         </div>

@@ -1,10 +1,11 @@
+import { loadJaccuseWords } from './databank.js';
+
+// Initialize variables
 var player_number = 0;
 var player_minority = 0;
 var canvas;
 var ctx;
-var place_list = [];
 var topic_list = [];
-var chosen_topics = [];
 var phase = "start";
 
 
@@ -14,29 +15,24 @@ var maj_word = "";
 let var_minority_id = [];
 let var_condemmed_id = [];
 
-document.querySelectorAll('.cards').forEach(card => {
-    card.addEventListener('click', function() {
-      card.classList.toggle('flipped');
-    });
-  });
-  
 
+function getUniqueTags(jaccuseWords) {
+    const tags = Object.values(jaccuseWords).reduce((acc, word) => {
+      return [...acc, ...word.tags];
+    }, []);
+    const uniqueTags = [...new Set(tags)];
+    return uniqueTags;
+  }
 
-function getUniqueTopics(placeList) {
-    const topics = placeList.map(place => place[2]); // Get the third element from each sub-array
-    const uniqueTopics = [...new Set(topics)]; // Remove duplicates
-    return uniqueTopics;
-}
-
-function main() {
-    topic_list = getUniqueTopics(place_list);
-    chosen_topics = [...topic_list]; // Create a copy of the topic_list
+  async function main() {
+    const jaccuseWords = await loadJaccuseWords();
+    topic_list = getUniqueTags(jaccuseWords);
     console.log(topic_list);
 
-    initializeButtons(); // Create buttons on page load
+    initializeButtons(jaccuseWords); // Create buttons on page load
 }
 // Function to initialize buttons without color
-function initializeButtons() {
+function initializeButtons(jaccuseWords) {
     var buttonContainer = document.getElementById('buttonContainer');
     buttonContainer.innerHTML = ''; // Clear previous buttons
 
@@ -66,51 +62,65 @@ function initializeButtons() {
     start_button.textContent = 'Start Game';
     start_button.id = 'start_button';
     start_button.addEventListener('click', function() {
-        startGame(player_number_input.value);
+        startGame(player_number_input.value, jaccuseWords);
     });
     start_options.appendChild(start_button);
 }
 
 // Function to update button colors
+
+let MustHaveTopics = [];
+let ForbiddenTopics = [];
+let buttonStates = {};
 function toggleFileSelection(topic) {
-    var indexInChosen = chosen_topics.indexOf(topic);
     var indexInTopicList = topic_list.indexOf(topic); // Get the index of the topic in the original list
     var button = document.getElementById('topic-button-' + indexInTopicList); // Access the button by its original list index
-
-    if (indexInChosen > -1) {
-        chosen_topics.splice(indexInChosen, 1); // Remove topic from chosen list
-        console.log(chosen_topics);
-        button.style.backgroundColor = 'grey';
-        button.style.color = 'black';
-    } else {
-        chosen_topics.push(topic); // Add topic back to chosen list
-        console.log(chosen_topics);
-        button.style.backgroundColor = 'white';
-        button.style.color = 'black';
+  
+    if (!buttonStates[topic]) {
+      buttonStates[topic] = 0; // Initialize button state to 0 (grey)
     }
-}
+  
+    buttonStates[topic] = (buttonStates[topic] + 1) % 3; // Cycle through states (0, 1, 2)
+  
+    switch (buttonStates[topic]) {
+      case 0:
+        button.style.backgroundColor = 'white';
+        if (ForbiddenTopics.includes(topic)) {
+          ForbiddenTopics.splice(ForbiddenTopics.indexOf(topic), 1);
+        }
+        break;
+      case 1:
+        button.style.backgroundColor = 'green';
+        MustHaveTopics.push(topic);
+        break;
+      case 2:
+        button.style.backgroundColor = 'red';
+        ForbiddenTopics.push(topic);
+        MustHaveTopics.splice(MustHaveTopics.indexOf(topic), 1);
+        break;
+    }
+  }
 
 function shuffleArray(array) {
-    for (let i = array.length - 1; i > 0; i--) {
-        const j = Math.floor(Math.random() * (i + 1));
-        [array[i], array[j]] = [array[j], array[i]]; // ES6 array destructuring
-    }
-}
+    return [...array].sort(() => Math.random() - 0.5);
+  }
 
-function select_valid_place() {
-    var valid_places = [];
-    for (let i = 0; i < place_list.length; i++) {
-        if (chosen_topics.includes(place_list[i][2])) {
-            valid_places.push(place_list[i]);
+  function select_valid_place(jaccuseWords) {
+    var valid_words = {};
+    for (const word in jaccuseWords) {
+        const tags = jaccuseWords[word].tags; // assign tags to a variable
+        if (MustHaveTopics.every(tag => tags.includes(tag)) && !ForbiddenTopics.some(tag => tags.includes(tag))) {
+          valid_words[word] = jaccuseWords[word];
         }
-    }
-    if (valid_places.length == 0) {
-        return null;
-    }
-    return valid_places[Math.floor(Math.random() * valid_places.length)];
-}
+      }
+    console.log(valid_words);
+    return valid_words;
+  }
 
-function startGame(player_number) {
+function startGame(player_number,jaccuseWords) {
+
+    var pl1, pl2; // Define pl1 and pl2 here
+
     // Get the number of players from the input
     player_number = Math.max(5, Math.min(player_number, 15));
     player_minority = Math.floor(player_number / 2-.1);
@@ -127,9 +137,22 @@ function startGame(player_number) {
     cardsContainer.innerHTML = '';
 
     // select random line of place_list
-    var place = select_valid_place();
-    pl1 = place[0];
-    pl2 = place[1];
+    var valid_words = select_valid_place(jaccuseWords);
+    if (valid_words.length === 0) {
+      console.log("No valid places found");
+      return;
+    }
+
+  
+
+    // select random element of the jacccuseWords dictionary
+    const keys = Object.keys(valid_words);
+    const randomKey = keys[Math.floor(Math.random() * keys.length)];
+
+    pl1 = valid_words[randomKey]["word1"];
+    pl2 = valid_words[randomKey]["word2"];
+
+  
 
     // randomly choose minority word and majority word form pl1 and pl2
     var minority_word = Math.floor(Math.random() * 2);
@@ -199,12 +222,14 @@ function add_condemn_button(player_number) {
         button.textContent = "Condemn";
         button.id = 'condemn_button-' + i; // Assign a unique ID
 
-        button.addEventListener('click', function() {
-            card = document.querySelectorAll('.cards')[i];
-            var_condemmed_id[i] = 1;
-            card.classList.add('deactivated_card');
-            check_win_condition();
-        });
+        button.addEventListener('click', (function(i) {
+            return function() {
+                let card = document.querySelectorAll('.cards')[i];
+                var_condemmed_id[i] = 1;
+                card.classList.add('deactivated_card');
+                check_win_condition();
+            };
+        })(i));
         cardsContainer.appendChild(button);
     }
 
@@ -239,3 +264,4 @@ function check_win_condition() {
 
 
 
+main(); // Add this line to call the main function

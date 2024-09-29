@@ -29,6 +29,10 @@
         flex: 1; /* Use remaining space */
     }
 
+    .small_leftpadding {
+        flex: 0.5; /* Use remaining space */
+    }
+
     .website_header .daseingemachte {
         display: flex; /* Use flexbox for layout */
         /* justify-content: left; /* Center content horizontally */
@@ -225,3 +229,19 @@
     opacity: 0.5;
   }
 
+ .person-icon {
+  width: 50px; /* Increased width */
+  height: 50px; /* Increased height */
+  margin-right: 20px; /* Added margin to separate from logo */
+}
+  
+  .login-button {
+    position: absolute;
+    top: 0;
+    left: 0;
+    background-color: transparent;
+    border: none;
+    padding: 0;
+    margin: 0;
+    cursor: pointer;
+  }

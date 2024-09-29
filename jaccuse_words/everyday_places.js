@@ -1,5 +1,5 @@
 place_list.push(
-        ["Zoo","Aquarium","everyday"],
+    ["Zoo","Aquarium","everyday"],
     ["Beach","Swimming pool","everyday"],
     ["Ski resort","Skate park","everyday"],
     ["Church","Courthouse","everyday"],
