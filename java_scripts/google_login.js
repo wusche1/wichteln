@@ -1,7 +1,17 @@
-// Define the callback function in the global scope
-function handleCredentialResponse(response) {
+// Define the callback function in the global scopefunction handleCredentialResponse(response) {
   console.log("Encoded JWT ID token: " + response.credential);
-  // Here you can process the token
+  
+  // Decode the JWT token
+  const payload = JSON.parse(atob(response.credential.split('.')[1]));
+  
+  // Extract and log user information
+  const userName = payload.name;
+  const userEmail = payload.email;
+  
+  console.log("User Name: " + userName);
+  console.log("User Email: " + userEmail);
+  
+  // You can use userName and userEmail variables for further processing
 }
 
 // Ensure the function is attached to the window object
