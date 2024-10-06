@@ -1,5 +1,20 @@
 function handleCredentialResponse(response) {
-      user_name = response.getBasicProfile().getName();
-      user_email = response.getBasicProfile().getEmail();
-      console.log("User name: " + user_name + " User Email: " + user_email);
-    }
+  console.log("Encoded JWT ID token: " + response.credential);
+  // Hier können Sie den Token verarbeiten
+}
+
+function initializeGoogleSignIn() {
+  google.accounts.id.initialize({
+    client_id: "663759759562-koons6upuoj2n06l9ncf7of7c00b4qhf.apps.googleusercontent.com",
+    callback: handleCredentialResponse
+  });
+
+  google.accounts.id.renderButton(
+    document.getElementById("g_id_signin"),
+    { theme: "outline", size: "large" }
+  );
+
+  google.accounts.id.prompt();
+}
+
+document.addEventListener("DOMContentLoaded", initializeGoogleSignIn);
