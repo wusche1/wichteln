@@ -5,6 +5,12 @@ function handleCredentialResponse(response) {
 
 function initializeGoogleSignIn() {
   if (typeof google === 'undefined' || typeof google.accounts === 'undefined') {
+    setTimeout(initializeGoogleSignIn, 100);
+    console.log("Google Sign-In library not loaded, retrying in 100ms");
+    return;
+  }
+
+  if (typeof google === 'undefined' || typeof google.accounts === 'undefined') {
     console.error("Google Sign-In library not loaded");
     return;
   }
