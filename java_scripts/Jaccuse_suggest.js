@@ -9,6 +9,17 @@ document.addEventListener('DOMContentLoaded', function() {
       mainContent.innerHTML = `
           <h1>Suggest Words</h1>
           <!-- Your suggestion form here -->
+          <form id="suggestion-form">
+              <label for="word1">Word 1:</label>
+              <input type="text" id="word1" name="word1" required>
+              <label for="word2">Word 2:</label>
+              <input type="text" id="word2" name="word2" required>
+              <label for="tag-input">Tags:</label>
+              <input type="text" id="tag-input" name="tag-input">
+              <button type="submit" id="suggest-button">Suggest</button>
+              <ul id="tag-list"></ul>
+              <p id="suggestion-status"></p>
+          </form>
       `;
       setupSuggestionForm();
   } else {
