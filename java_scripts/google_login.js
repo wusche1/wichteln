@@ -1,4 +1,4 @@
-// Define the callback function in the global scopefunction handleCredentialResponse(response) {
+function handleCredentialResponse(response) {
   console.log("Encoded JWT ID token: " + response.credential);
   
   // Decode the JWT token
@@ -21,3 +21,4 @@ window.handleCredentialResponse = handleCredentialResponse;
 document.addEventListener('DOMContentLoaded', function() {
   console.log("Page loaded, Google Sign-In should be ready");
 });
+
