@@ -19,17 +19,15 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/4.1.1/crypto-js.min.js"></script>
     <script type="module" src="java_scripts/databank.js" defer></script>
     <script type="module" src="java_scripts/Jaccuse.js" defer></script> 
-    <!-- <script src="jaccuse_words/everyday_places.js" defer></script>
-    <script src="jaccuse_words/abstract_places.js" defer></script>
-    <script src="jaccuse_words/specific_places.js" defer></script>
-    <script src="jaccuse_words/jonas_words.js" defer></script>
-    <script src="jaccuse_words/eva_words.js" defer></script>
-    <script src="jaccuse_words/ML4good.js" defer></script> -->
     <script src="https://accounts.google.com/gsi/client" async defer></script>
     <script src="java_scripts/google_login.js" defer></script>
+    <script type="module">
+        import { main } from './java_scripts/Jaccuse.js';
+        window.onload = main;
+    </script>
 </head>
 
-<body onload="main()">
+<body>
     <header class="website_header">
         <div class="leftpadding"></div>
         <div class="daseingemachte">
@@ -55,17 +53,20 @@
         </div>
         <div class="leftpadding"></div>
         <div class="daseingemachte">
-            <h1>J'accuse Game Options</h1>
-            <div class="game_buttons">
-                <a href="Jaccuse_rules.html"><button type="button">Rules of J'accuse!</button></a>
-                <a href="Jaccuse_play.html"><button type="button">Play J'accuse!</button></a>
-                <a href="Jaccuse_words.html"><button type="button">Select Words</button></a>
-                <a href="Jaccuse_suggest.html"><button type="button">Suggest New Words</button></a>
+            <h1>Play J'accuse!</h1>
+            <!-- Include the game simulation here -->
+            <div id="topic-selection">
+                <h2>Choose the active word categories:</h2>
+                <div id="buttonContainer" class="game_buttons"></div>
             </div>
+            <div id="start_options" class = "game_buttons"></div>
+            <div id="player_cards"></div>
+            <div id="condemmed_button" class = "game_buttons"></div>
+            <p></p>
+            
+            <!-- <button onclick="alert('Hall0')">Draw</button> -->
         </div>
         <div class="rightpadding"></div>
     </div>
 </body>
 </html>
-
-

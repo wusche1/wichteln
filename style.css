@@ -280,3 +280,21 @@
     margin-left: 5px;
     cursor: pointer;
 }
+
+.game_buttons a.button {
+    padding: 10px 20px;
+    font-size: 16px;
+    color: rgb(0, 0, 0);
+    background-color: #ffffff;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease, transform 0.1s;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+    text-decoration: none; /* Remove underline from links */
+    display: inline-block; /* Make the link behave more like a button */
+}
+
+.game_buttons a.button:hover {
+    transform: translateY(-2px);
+}

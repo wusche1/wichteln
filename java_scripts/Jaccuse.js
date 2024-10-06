@@ -14,6 +14,7 @@ var maj_word = "";
 
 let var_minority_id = [];
 let var_condemmed_id = [];
+var set_key = null;
 
 
 function getUniqueTags(jaccuseWords) {
@@ -24,20 +25,29 @@ function getUniqueTags(jaccuseWords) {
     return uniqueTags;
   }
 
-  async function main() {
+  export async function main() {
     const jaccuseWords = await loadJaccuseWords();
+    const urlParams = new URLSearchParams(window.location.search);
+    set_key = urlParams.get('word');
+    console.log("set_key:", set_key);
+
     topic_list = getUniqueTags(jaccuseWords);
     console.log(topic_list);
-
     initializeButtons(jaccuseWords); // Create buttons on page load
-    showSuggestionForm(); // Add this line
-    setupSuggestionForm(); // Add this line
-}
+  }
+
 // Function to initialize buttons without color
 function initializeButtons(jaccuseWords) {
     var buttonContainer = document.getElementById('buttonContainer');
+    var topicSelection = document.getElementById('topic-selection');
+
+    if (set_key != null) {
+      topicSelection.style.display = 'none';
+    }
+
     buttonContainer.innerHTML = ''; // Clear previous buttons
 
+    
     for (let i = 0; i < topic_list.length; i++) {
         let topic = topic_list[i];
         let button = document.createElement('button');
@@ -120,6 +130,7 @@ function shuffleArray(array) {
   }
 
 function startGame(player_number,jaccuseWords) {
+    console.log("Starting game with set_key:", set_key);
 
     var pl1, pl2; // Define pl1 and pl2 here
 
@@ -139,20 +150,29 @@ function startGame(player_number,jaccuseWords) {
     cardsContainer.innerHTML = '';
 
     // select random line of place_list
-    var valid_words = select_valid_place(jaccuseWords);
-    if (valid_words.length === 0) {
-      console.log("No valid places found");
-      return;
+    let randomKey;
+    if (set_key == null) {
+      var valid_words = select_valid_place(jaccuseWords);
+      if (valid_words.length === 0) {
+        console.log("No valid places found");
+        return;
+      }
+
+    
+
+      // select random element of the jacccuseWords dictionary
+      const keys = Object.keys(valid_words);
+      randomKey = keys[Math.floor(Math.random() * keys.length)];
+
+    } else {
+      randomKey = set_key;
+      console.log("setting key:", randomKey);
+      console.log("setting words 1:", jaccuseWords[randomKey]["word1"]);
+      console.log("setting words 2:", jaccuseWords[randomKey]["word2"]);
     }
 
-  
-
-    // select random element of the jacccuseWords dictionary
-    const keys = Object.keys(valid_words);
-    const randomKey = keys[Math.floor(Math.random() * keys.length)];
-
-    pl1 = valid_words[randomKey]["word1"];
-    pl2 = valid_words[randomKey]["word2"];
+    pl1 = jaccuseWords[randomKey]["word1"];
+    pl2 = jaccuseWords[randomKey]["word2"];
 
   
 
@@ -267,79 +287,3 @@ function check_win_condition() {
     }
     return;
 }
-
-function showSuggestionForm() {
-  const suggestionForm = document.getElementById('word-suggestion');
-  if (localStorage.getItem('isLoggedIn') === 'true') {
-      suggestionForm.style.display = 'block';
-  } else {
-      suggestionForm.style.display = 'none';
-  }
-}
-
-let tags = [];
-
-function setupSuggestionForm() {
-  const suggestButton = document.getElementById('suggest-button');
-  suggestButton.addEventListener('click', handleSuggestion);
-
-  const tagInput = document.getElementById('tag-input');
-  tagInput.addEventListener('keypress', handleTagInput);
-}
-
-function handleTagInput(event) {
-  if (event.key === 'Enter') {
-      event.preventDefault();
-      const tagInput = event.target;
-      const tag = tagInput.value.trim();
-      if (tag && !tags.includes(tag)) {
-          tags.push(tag);
-          updateTagList();
-          tagInput.value = '';
-      }
-  }
-}
-
-function updateTagList() {
-  const tagList = document.getElementById('tag-list');
-  tagList.innerHTML = '';
-  tags.forEach((tag, index) => {
-      const li = document.createElement('li');
-      li.textContent = tag;
-      const removeButton = document.createElement('button');
-      removeButton.textContent = 'x';
-      removeButton.onclick = () => removeTag(index);
-      li.appendChild(removeButton);
-      tagList.appendChild(li);
-  });
-}
-
-function removeTag(index) {
-  tags.splice(index, 1);
-  updateTagList();
-}
-
-async function handleSuggestion() {
-  const word1 = document.getElementById('word1').value.trim();
-  const word2 = document.getElementById('word2').value.trim();
-  const author = localStorage.getItem('userName');
-  const statusElement = document.getElementById('suggestion-status');
-
-  if (word1 && word2 && author) {
-      try {
-          await addJaccuseWord(word1, word2, author, ['user_suggested', ...tags]);
-          statusElement.textContent = 'Words suggested successfully!';
-          document.getElementById('word1').value = '';
-          document.getElementById('word2').value = '';
-          tags = [];
-          updateTagList();
-      } catch (error) {
-          statusElement.textContent = 'Error suggesting words. Please try again.';
-          console.error('Error suggesting words:', error);
-      }
-  } else {
-      statusElement.textContent = 'Please enter both words.';
-  }
-}
-
-main(); // Add this line to call the main function
