@@ -35,9 +35,18 @@
 
     .website_header .daseingemachte {
         display: flex; /* Use flexbox for layout */
-        /* justify-content: left; /* Center content horizontally */
+        justify-content: left; /* Center content horizontally */
         align-items: center; /* Center content vertically */
+        width: 100%; /* add this line to make the container full-width */
     }
+    .daseingemachte {
+        justify-content: space-between;
+    }
+    
+    .g_id_signin {
+        margin-left: auto; /* push the button to the right */
+        margin-right: 20px; /* adjust the distance from the right edge as needed */
+      }
 
     .rightpadding {
         flex: 5; /* Use remaining space */

@@ -15,27 +15,22 @@
     <meta name="msapplication-TileColor" content="#da532c">
     <meta name="theme-color" content="#ffffff">
 </head>
-<script src="https://apis.google.com/js/platform.js" async defer></script>
-<script>
-    function loginWithGoogle() {
-      gapi.auth2.getAuthInstance().signIn({
-        prompt: 'select_account'
-      }).then(function(googleUser) {
-        console.log('Logged in with Google');
-      }, function(error) {
-        console.log('Google login failed: ' + error);
-      });
-    }
-  </script>
+<script src="https://accounts.google.com/gsi/client" async defer></script>
+<script src="java_scripts/google_login.js" defer></script>
 <body>
     <header class="website_header">
-        <div class="small_leftpadding"></div>
-        <div class="daseingemachte">
-            <img src="images/person-icon.png" alt="Login" class="person-icon" onclick="setTimeout(loginWithGoogle, 100)">            <img src="images/Turtle_logo.png" alt="Pustezug Games" class="logo">
-            <span class="website_title">Pustezug Games</span>
-            <a href="#" class="login-button" onclick="loginWithGoogle()"></a>
+      <div class="leftpadding"></div>
+      <div class="daseingemachte">
+          <img src="images/Turtle_logo.png" alt="Pustezug Games" class="logo">
+          <span class="website_title">Pustezug Games</span>
+          <div class="spacer"></div>
+          <div id="g_id_onload"
+               data-client_id="663759759562-koons6upuoj2n06l9ncf7of7c00b4qhf.apps.googleusercontent.com"
+               data-callback="handleCredentialResponse">
           </div>
-        <div class="rightpadding"></div>
+          <div class="g_id_signin" data-type="standard"></div>
+      </div>
+      <div class="rightpadding"></div>
     </header>
     <div class="website_content">
         <div class="menu_bar">

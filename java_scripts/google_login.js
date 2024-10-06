@@ -1,30 +1,25 @@
-function onGoogleLoginSuccess(googleUser) {
-    var profile = googleUser.getBasicProfile();
-    console.log('ID: ' + profile.getId()); // Do not send the ID to your backend! Use an ID token instead.
-    console.log('Name: ' + profile.getName());
-    console.log('Image URL: ' + profile.getImageUrl());
-    console.log('Email: ' + profile.getEmail()); // This is null if the 'email' scope is not present.
-  }
-  
-  function onGoogleLoginFailure(error) {
-    console.log('Google login failed: ' + error);
-  }
-  
-  gapi.load('auth2', function() {
-    gapi.auth2.init({
-      client_id: 'YOUR_CLIENT_ID',
-      callback: onGoogleLoginSuccess,
-      scope: 'profile email',
-      context: 'http://localhost:3000'
-    });
+function initializeGoogleSignIn() {
+  console.log("Initializing Google Sign-In");
+  console.log("Current origin:", window.location.origin);
+  console.log("Client ID:", "663759759562-koons6upuoj2n06l9ncf7of7c00b4qhf.apps.googleusercontent.com");
+
+  google.accounts.id.initialize({
+    client_id: "663759759562-koons6upuoj2n06l9ncf7of7c00b4qhf.apps.googleusercontent.com",
+    callback: handleCredentialResponse
   });
-  
-  function loginWithGoogle() {
-    gapi.auth2.getAuthInstance().signIn({
-      prompt: 'select_account'
-    }).then(function(googleUser) {
-      onGoogleLoginSuccess(googleUser);
-    }, function(error) {
-      onGoogleLoginFailure(error);
-    });
-  }
+
+  console.log("Google Sign-In initialized");
+
+  google.accounts.id.renderButton(
+    document.getElementById("g_id_signin"),
+    { theme: "outline", size: "large" }
+  );
+
+  console.log("Sign-In button rendered");
+
+  google.accounts.id.prompt();
+
+  console.log("One Tap prompt displayed");
+}
+
+document.addEventListener("DOMContentLoaded", initializeGoogleSignIn);
