@@ -254,3 +254,29 @@
     margin: 0;
     cursor: pointer;
   }
+
+  .tag-input-container {
+    margin-bottom: 10px;
+}
+
+#tag-list {
+    list-style-type: none;
+    padding: 0;
+    margin: 5px 0;
+}
+
+#tag-list li {
+    display: inline-block;
+    background-color: #e0e0e0;
+    padding: 2px 8px;
+    margin: 2px;
+    border-radius: 3px;
+}
+
+#tag-list li button {
+    background: none;
+    border: none;
+    color: #888;
+    margin-left: 5px;
+    cursor: pointer;
+}

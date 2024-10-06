@@ -277,9 +277,46 @@ function showSuggestionForm() {
   }
 }
 
+let tags = [];
+
 function setupSuggestionForm() {
   const suggestButton = document.getElementById('suggest-button');
   suggestButton.addEventListener('click', handleSuggestion);
+
+  const tagInput = document.getElementById('tag-input');
+  tagInput.addEventListener('keypress', handleTagInput);
+}
+
+function handleTagInput(event) {
+  if (event.key === 'Enter') {
+      event.preventDefault();
+      const tagInput = event.target;
+      const tag = tagInput.value.trim();
+      if (tag && !tags.includes(tag)) {
+          tags.push(tag);
+          updateTagList();
+          tagInput.value = '';
+      }
+  }
+}
+
+function updateTagList() {
+  const tagList = document.getElementById('tag-list');
+  tagList.innerHTML = '';
+  tags.forEach((tag, index) => {
+      const li = document.createElement('li');
+      li.textContent = tag;
+      const removeButton = document.createElement('button');
+      removeButton.textContent = 'x';
+      removeButton.onclick = () => removeTag(index);
+      li.appendChild(removeButton);
+      tagList.appendChild(li);
+  });
+}
+
+function removeTag(index) {
+  tags.splice(index, 1);
+  updateTagList();
 }
 
 async function handleSuggestion() {
@@ -290,10 +327,12 @@ async function handleSuggestion() {
 
   if (word1 && word2 && author) {
       try {
-          await addJaccuseWord(word1, word2, author, ['user_suggested']);
+          await addJaccuseWord(word1, word2, author, ['user_suggested', ...tags]);
           statusElement.textContent = 'Words suggested successfully!';
           document.getElementById('word1').value = '';
           document.getElementById('word2').value = '';
+          tags = [];
+          updateTagList();
       } catch (error) {
           statusElement.textContent = 'Error suggesting words. Please try again.';
           console.error('Error suggesting words:', error);
