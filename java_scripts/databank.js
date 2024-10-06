@@ -66,6 +66,31 @@ async  function addJaccuseWord(word1, word2, author, tags) {
     });
   }
 
+
+  function add_played_user_to_word(compositeKey, user) {
+    const existingWordRef = ref(db, `jaccuse_words/${compositeKey}`);
+    get(existingWordRef).then((snapshot) => {
+      if (snapshot.exists()) {
+        //console.log('Word already exists:', snapshot.val());
+        const newJaccuseWord = {
+          word1: snapshot.val().word1,
+          word2: snapshot.val().word2,
+          author: snapshot.val().author,
+          tags: snapshot.val().tags,
+          played_users: [...snapshot.val().played_users, user],
+          n_plays: snapshot.val().n_plays,
+          n_upvote: snapshot.val().n_upvote
+        };
+  
+        set(existingWordRef, newJaccuseWord);
+        //console.log('Word added:', newJaccuseWord);
+      } else {
+        console.log('Word does not exist');
+      }
+  }
+    );
+  }
+
   const words = [
     ["Terminator","Transformer",{ author: "wuschel", tags: ["AI_safety_beginner"] }],
     ["University","ML4good",{ author: "wuschel", tags: ["AI_safety_beginner", "place"] }],

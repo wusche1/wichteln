@@ -1,4 +1,4 @@
-import { loadJaccuseWords } from './databank.js';
+import { loadJaccuseWords, addJaccuseWord  } from './databank.js';
 
 // Initialize variables
 var player_number = 0;
@@ -30,6 +30,8 @@ function getUniqueTags(jaccuseWords) {
     console.log(topic_list);
 
     initializeButtons(jaccuseWords); // Create buttons on page load
+    showSuggestionForm(); // Add this line
+    setupSuggestionForm(); // Add this line
 }
 // Function to initialize buttons without color
 function initializeButtons(jaccuseWords) {
@@ -194,6 +196,10 @@ function startGame(player_number,jaccuseWords) {
 
             //see if al cards are deactivated, and game phase is choose. If so, move to next phase.
             if (document.querySelectorAll('.deactivated_card').length == player_number && phase == "choose") {
+                if(localStorage.getItem('userName') != null) {
+                    user_name = localStorage.getItem('userName');
+                    add_played_user_to_word(randomKey, user_name);
+                }
                 phase = "vote";
                 for (let i = 0; i < player_number; i++) {
                     document.querySelectorAll('.cards')[i].classList.remove('deactivated_card');
@@ -262,6 +268,39 @@ function check_win_condition() {
     return;
 }
 
+function showSuggestionForm() {
+  const suggestionForm = document.getElementById('word-suggestion');
+  if (localStorage.getItem('isLoggedIn') === 'true') {
+      suggestionForm.style.display = 'block';
+  } else {
+      suggestionForm.style.display = 'none';
+  }
+}
 
+function setupSuggestionForm() {
+  const suggestButton = document.getElementById('suggest-button');
+  suggestButton.addEventListener('click', handleSuggestion);
+}
+
+async function handleSuggestion() {
+  const word1 = document.getElementById('word1').value.trim();
+  const word2 = document.getElementById('word2').value.trim();
+  const author = localStorage.getItem('userName');
+  const statusElement = document.getElementById('suggestion-status');
+
+  if (word1 && word2 && author) {
+      try {
+          await addJaccuseWord(word1, word2, author, ['user_suggested']);
+          statusElement.textContent = 'Words suggested successfully!';
+          document.getElementById('word1').value = '';
+          document.getElementById('word2').value = '';
+      } catch (error) {
+          statusElement.textContent = 'Error suggesting words. Please try again.';
+          console.error('Error suggesting words:', error);
+      }
+  } else {
+      statusElement.textContent = 'Please enter both words.';
+  }
+}
 
 main(); // Add this line to call the main function
