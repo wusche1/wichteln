@@ -22,10 +22,16 @@ function initializeGoogleSignIn() {
       console.error("Sign-in button element not found");
     }
 
-    google.accounts.id.prompt();
+    // Kommentieren Sie diese Zeile aus, wenn Sie Probleme mit One Tap haben
+    // google.accounts.id.prompt();
   } catch (error) {
     console.error("Error initializing Google Sign-In:", error);
   }
 }
 
-document.addEventListener("DOMContentLoaded", initializeGoogleSignIn);
+// Warten Sie, bis das DOM vollständig geladen ist
+if (document.readyState === 'loading') {
+  document.addEventListener('DOMContentLoaded', initializeGoogleSignIn);
+} else {
+  initializeGoogleSignIn();
+}
