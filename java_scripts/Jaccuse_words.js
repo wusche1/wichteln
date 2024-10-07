@@ -76,7 +76,7 @@ function renderTable(data) {
                 <td>${word.n_plays}</td>
                 <td>${word.n_upvote}</td>
                 <td>${word.tags.join(', ')}</td>
-                <td><a href="jaccuse_play.html?word=${word.key}" class="button">Play</a></td>
+                <td><a href="jaccuse_play.html#${word.key}" class="button">Play</a></td>
             </tr>
         `;
     }

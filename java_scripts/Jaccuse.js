@@ -28,7 +28,10 @@ function getUniqueTags(jaccuseWords) {
   export async function main() {
     const jaccuseWords = await loadJaccuseWords();
     const urlParams = new URLSearchParams(window.location.search);
-    set_key = urlParams.get('word');
+    set_key = window.location.hash.slice(1);
+    if (set_key === '') {
+      set_key = null;  // or however you want to handle no key being present
+  }
     console.log("set_key:", set_key);
 
     topic_list = getUniqueTags(jaccuseWords);

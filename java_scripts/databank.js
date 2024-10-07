@@ -1,5 +1,6 @@
 import { initializeApp } from 'https://www.gstatic.com/firebasejs/9.14.0/firebase-app.js';
 import { getDatabase, ref, set, get } from 'https://www.gstatic.com/firebasejs/9.14.0/firebase-database.js';
+import { serverTimestamp } from 'https://www.gstatic.com/firebasejs/9.14.0/firebase-database.js';
 
 function hash(string) {
     const encoder = new TextEncoder();
@@ -43,6 +44,8 @@ async  function addJaccuseWord(word1, word2, author, tags) {
     const words = [word1, word2].sort(); // sort the words alphabetically
     const concatenatedWords = words.join(''); // concatenate the sorted words
     const compositeKey = await hash(concatenatedWords)
+    const creationTime = Math.floor(Date.now() / 3600000) * 3600000; // Round to nearest hour
+
   
     const existingWordRef = ref(db, `jaccuse_words/${compositeKey}`);
     get(existingWordRef).then((snapshot) => {
@@ -57,7 +60,8 @@ async  function addJaccuseWord(word1, word2, author, tags) {
           tags: tags,
           played_users: [],
           n_plays: 0,
-          n_upvote: 0
+          n_upvote: 0,
+          creationTime: creationTime
         };
   
         set(existingWordRef, newJaccuseWord);
@@ -79,7 +83,8 @@ async  function addJaccuseWord(word1, word2, author, tags) {
           tags: snapshot.val().tags,
           played_users: [...snapshot.val().played_users, user],
           n_plays: snapshot.val().n_plays,
-          n_upvote: snapshot.val().n_upvote
+          n_upvote: snapshot.val().n_upvote,
+          creationTime: snapshot.val().creationTime
         };
   
         set(existingWordRef, newJaccuseWord);
