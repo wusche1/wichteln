@@ -10,7 +10,8 @@ document.addEventListener('DOMContentLoaded', function() {
     const sortUpvotesButton = document.getElementById('sort-upvotes');
     const searchInput = document.getElementById('search-input');
     const searchButton = document.getElementById('search-button');
-    
+    const sortNewestButton = document.getElementById('sort-newest');
+
     
     if (!wordsList) {
         console.error("Could not find element with id 'words-list'");
@@ -39,6 +40,10 @@ document.addEventListener('DOMContentLoaded', function() {
             if (event.key === 'Enter') {
                 performSearch();
             }
+        });
+        sortNewestButton.addEventListener('click', () => {
+            filteredWordsData.sort((a, b) => b.creationTime - a.creationTime);
+            renderTable(filteredWordsData);
         });
     }).catch(error => {
         console.error("Error loading Jaccuse words:", error);
