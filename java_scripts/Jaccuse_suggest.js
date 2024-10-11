@@ -1,3 +1,5 @@
+import { loadJaccuseWords, addJaccuseWord  } from './databank.js';
+
 document.addEventListener('DOMContentLoaded', function() {
   const mainContent = document.getElementById('main-content');
   
