@@ -28,7 +28,8 @@ function getUniqueTags(jaccuseWords) {
   export async function main() {
     const jaccuseWords = await loadJaccuseWords();
     const urlParams = new URLSearchParams(window.location.search);
-    set_key = window.location.hash.slice(1);
+    set_key = localStorage.getItem('playKey');
+    localStorage.removeItem('playKey');
     if (set_key === '') {
       set_key = null;  // or however you want to handle no key being present
   }
@@ -116,9 +117,14 @@ function toggleFileSelection(topic) {
     }
   }
 
-function shuffleArray(array) {
-    return [...array].sort(() => Math.random() - 0.5);
+  function shuffleArray(array) {
+    for (let i = array.length - 1; i > 0; i--) {
+      const j = Math.floor(Math.random() * (i + 1));
+      [array[i], array[j]] = [array[j], array[i]];
+    }
+    return array;
   }
+  
 
   function select_valid_place(jaccuseWords) {
     var valid_words = {};

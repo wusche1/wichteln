@@ -76,10 +76,23 @@ function renderTable(data) {
                 <td>${word.n_plays}</td>
                 <td>${word.n_upvote}</td>
                 <td>${word.tags.join(', ')}</td>
-                <td><a href="jaccuse_play.html#${word.key}" class="button">Play</a></td>
+                <td><button class="play-button" data-key="${word.key}">Play</button></td>
             </tr>
         `;
     }
     html += '</tbody></table>';
     wordsList.innerHTML = html;
+
+    // Add event listener for play buttons
+    wordsList.addEventListener('click', function(event) {
+        if (event.target.classList.contains('play-button')) {
+            const key = event.target.getAttribute('data-key');
+            redirectToPlay(key);
+        }
+    });
+
+    function redirectToPlay(key) {
+        localStorage.setItem('playKey', key);
+        window.location.href = 'jaccuse_play.html';
+    }
 }
