@@ -11,6 +11,7 @@ document.addEventListener('DOMContentLoaded', function() {
     const searchInput = document.getElementById('search-input');
     const searchButton = document.getElementById('search-button');
     
+    
     if (!wordsList) {
         console.error("Could not find element with id 'words-list'");
         return;
@@ -64,18 +65,21 @@ function renderTable(data) {
                 <th>Views</th>
                 <th>Upvotes</th>
                 <th>Tags</th>
+                <th>Creation Time</th>
                 <th>Action</th>
             </tr>
         </thead>
         <tbody>
     `;
     for (const word of data) {
+        const creationTime = word.creationTime ? new Date(word.creationTime).toLocaleString() : 'Unknown';
         html += `
             <tr>
                 <td>${word.author}</td>
                 <td>${word.n_plays}</td>
                 <td>${word.n_upvote}</td>
                 <td>${word.tags.join(', ')}</td>
+                <td>${creationTime}</td>
                 <td><button class="play-button" data-key="${word.key}">Play</button></td>
             </tr>
         `;

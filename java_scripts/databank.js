@@ -30,14 +30,18 @@ const jaccuseWordsRef = ref(db, 'jaccuse_words');
 
 function loadJaccuseWords() {
   return get(jaccuseWordsRef).then((snapshot) => {
-    if (snapshot.exists()) {
-      const jaccuseWords = snapshot.val();
-      //console.log(jaccuseWords);
-      return jaccuseWords;
-    } else {
-      console.log("No jaccuse words available");
-      return null;
-    }
+      if (snapshot.exists()) {
+          const jaccuseWords = snapshot.val();
+          Object.keys(jaccuseWords).forEach(key => {
+              if (!jaccuseWords[key].creationTime) {
+                  jaccuseWords[key].creationTime = 0;
+              }
+          });
+          return jaccuseWords;
+      } else {
+          console.log("No jaccuse words available");
+          return null;
+      }
   });
 }
 async  function addJaccuseWord(word1, word2, author, tags) {
