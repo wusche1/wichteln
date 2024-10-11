@@ -102,6 +102,6 @@ function renderTable(data) {
 
     function redirectToPlay(key) {
         localStorage.setItem('playKey', key);
-        window.location.href = 'jaccuse_play.html';
+        window.location.href = 'Jaccuse_play.html';
     }
 }
