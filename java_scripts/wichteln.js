@@ -9,8 +9,6 @@ const addHouseholdButton = document.getElementById('add-household');
 const householdsList = document.getElementById('households-list');
 const sendButton = document.getElementById('send-button');
 
-emailjs.init("PricsRROSVpOdZ_cy"); // Replace with your actual public key
-
 // Add person
 addPersonForm.addEventListener('submit', function(e) {
     e.preventDefault();
@@ -184,18 +182,8 @@ function sendEmails(assignments) {
             .replace('[Recipient]', giver.name)
             .replace('[Lot]', receiver.name);
 
-        const templateParams = {
-            to_email: giver.email,
-            to_name: giver.name,
-            message: personalizedMessage
-        };
 
-        emailjs.send('service_focefqo', 'template_zwovjpp', templateParams)
-            .then(function(response) {
-                console.log('SUCCESS!', response.status, response.text);
-            }, function(error) {
-                console.log('FAILED...', error);
-            });
+        sendEmail(receiver.email, personalizedMessage);
     });
 }
 
@@ -206,28 +194,49 @@ sendButton.addEventListener('click', performSecretSantaDraw);
 
 
 
-
 // Function to send the email
-function sendEmail() {
-    // Template parameters
-    const templateParams = {
-        to_email: recipientEmail,
-        message: messageText,
-        // Add any other parameters your email template uses
-    };
+async function sendEmail(recipientEmail, messageText) {
+    try {
+        console.log('Sending request with:', { recipientEmail, messageText });
+        
+        const response = await fetch('/.netlify/functions/send-email', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+                recipientEmail,
+                messageText
+            })
+        });
 
-    // Send the email
-    emailjs.send(
-        "service_focefqo", // Your service ID
-        "template_zwovjpp", // Replace with your template ID
-        templateParams
-    )
-    .then(function(response) {
-        console.log("SUCCESS!", response.status, response.text);
-        // Handle success (e.g., show success message)
-    }, function(error) {
-        console.log("FAILED...", error);
-        // Handle error (e.g., show error message)
-    });
+        console.log('Raw response:', response);
+        
+        // Log the raw response text
+        const responseText = await response.text();
+        console.log('Response text:', responseText);
+
+        // Try to parse it as JSON if it's valid
+        let data;
+        try {
+            data = JSON.parse(responseText);
+        } catch (e) {
+            console.error('Failed to parse JSON:', e);
+            console.log('Full response:', responseText);
+            alert('Server response was not valid JSON: ' + responseText);
+            return;
+        }
+
+        if (response.ok) {
+            alert('Email sent successfully!');
+        } else {
+            alert(`Failed to send email: ${data.error}`);
+        }
+    } catch (error) {
+        console.error('Full error:', error);
+        alert('Error sending email: ' + error.message);
+    }
 }
 
+//sendEmail("wuschelschulz8@gmail.com", "atob TEST MESSAGE")
+//console.log("hallo welt");
