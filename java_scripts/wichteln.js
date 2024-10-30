@@ -189,7 +189,7 @@ function sendEmails(assignments) {
             .replace('[Lot]', receiver.name);
 
 
-        sendEmail(receiver.email, personalizedMessage);
+        sendEmail(giver.email, personalizedMessage);
     });
 }
 
