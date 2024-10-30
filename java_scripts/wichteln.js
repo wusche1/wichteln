@@ -175,7 +175,13 @@ function isInSameHousehold(person1, person2) {
 
 
 function sendEmails(assignments) {
-    const messageTemplate = document.getElementById('message-template').value;
+    const messageTemplateElement = document.getElementById('message-template');
+    const messageTemplate = messageTemplateElement ? messageTemplateElement.innerText : '';
+
+    if (!messageTemplate) {
+        console.error('Message template not found or empty');
+        return;
+    }
 
     assignments.forEach((receiver, giver) => {
         const personalizedMessage = messageTemplate
@@ -228,15 +234,35 @@ async function sendEmail(recipientEmail, messageText) {
         }
 
         if (response.ok) {
-            alert('Email sent successfully!');
+            console.log('Email sent successfully to:', recipientEmail);
         } else {
-            alert(`Failed to send email: ${data.error}`);
+            alert(`Failed to send email to ${recipientEmail}: ${data.error}`);
         }
     } catch (error) {
         console.error('Full error:', error);
-        alert('Error sending email: ' + error.message);
+        alert(`Error sending email to ${recipientEmail}: ${error.message}`);
     }
 }
+function updatePlaceholders() {
+    const messageDiv = document.getElementById('message-template');
+    let content = messageDiv.innerHTML;
+    //first, make delete all placeholders class definitions from the message
+    content = content.replace(/<span class="placeholder">/g, '').replace(/<\/span>/g, '');
+    
+    
+    // Replace placeholders with spans
+    content = content
+        .replace(/\[Recipient\]/g, '<span class="placeholder">[Recipient]</span>')
+        .replace(/\[Lot\]/g, '<span class="placeholder">[Lot]</span>');
+    
+    messageDiv.innerHTML = content;
+}
 
+// Call this function when the page loads
+// Call this function when the page loads
+document.addEventListener('DOMContentLoaded', function() {
+    updatePlaceholders();
+    document.getElementById('message-template').addEventListener('blur', updatePlaceholders);
+});
 //sendEmail("wuschelschulz8@gmail.com", "atob TEST MESSAGE")
 //console.log("hallo welt");
